@@ -1,11 +1,16 @@
-import { getAuth } from "firebase/auth";
+import { getAuth, updateProfile } from "firebase/auth";
+import { doc, updateDoc } from "firebase/firestore";
 import React from "react";
 import { useState } from "react";
 import { useNavigate } from "react-router";
+import { toast } from "react-toastify";
+import { db } from "../firebase";
 
 const Profile = () => {
   const auth = getAuth();
   const navigate = useNavigate();
+
+  const [changeDetails, setChangeDetails] = useState();
 
   const [formData, setFormData] = useState({
     name: auth.currentUser.displayName,
@@ -15,6 +20,27 @@ const Profile = () => {
   const onLogout = () => {
     auth.signOut();
     navigate("/");
+  };
+
+  const onChange = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
+  const onSubmit = async () => {
+    try {
+      if (auth.currentUser.displayName !== formData.name) {
+        await updateProfile(auth.currentUser, {
+          displayName: formData.name,
+        });
+        const docRef = doc(db, "users", auth.currentUser.uid);
+        await updateDoc(docRef, {
+          name: formData.name,
+        });
+      }
+      toast.success("Profile details updated");
+    } catch (error) {
+      toast.error("Error");
+    }
   };
   return (
     <>
@@ -29,7 +55,8 @@ const Profile = () => {
               name="name"
               id="name"
               value={formData.name}
-              disabled
+              disabled={!changeDetails}
+              onChange={onChange}
               className="mb-6 w-full px-4 py-2 text-xl text-gray-700 bg-white border border-gray-300 rounded transition ease-in-out"
             />
             <input
@@ -44,8 +71,14 @@ const Profile = () => {
             <div className="flex justify-between whitespace-nowrap text-sm sm:text-lg mb-6">
               <p className="flex items-center ">
                 Do you want to change your name?
-                <span className="text-red-600 hover:text-red-700 transition ease-in-out duration-200 ml-1 cursor-pointer">
-                  Edit
+                <span
+                  onClick={() => {
+                    changeDetails && onSubmit();
+                    setChangeDetails((prevState) => !prevState);
+                  }}
+                  className="text-red-600 hover:text-red-700 transition ease-in-out duration-200 ml-1 cursor-pointer"
+                >
+                  {changeDetails ? "Apply Change" : "Edit"}
                 </span>
               </p>
               <p
