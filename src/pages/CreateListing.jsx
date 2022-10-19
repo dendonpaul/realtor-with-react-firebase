@@ -13,10 +13,16 @@ const CreateListing = () => {
     offer: true,
     regularPrice: 0,
     discountedPrice: 0,
+    images: "",
   });
 
   const onChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+    let boolean = null;
+    if (e.target.value === "true") boolean = true;
+    if (e.target.value === "false") boolean = false;
+    if (e.target.files) setFormData({ ...formData, images: e.target.files });
+    if (!e.target.files)
+      setFormData({ ...formData, [e.target.id]: boolean ?? e.target.value });
   };
   return (
     <main className="max-w-md px-2 mx-auto">
@@ -27,6 +33,7 @@ const CreateListing = () => {
           <button
             type="button"
             id="type"
+            name="type"
             value="sale"
             className={`px-7 py-3 font-medium text-small
             uppercase shadow-md rounded hover:shadow-lg active:shadow-lg focus:shadow-lg transition ease-in-out duration-200 w-full ${
@@ -34,13 +41,14 @@ const CreateListing = () => {
                 ? "bg-white text-black"
                 : "bg-slate-600 text-white"
             }`}
-            onChange={onChange}
+            onClick={onChange}
           >
             Sell
           </button>
           <button
             type="button"
             id="type"
+            name="type"
             value="rent"
             className={`px-7 py-3 font-medium text-small
             uppercase shadow-md rounded hover:shadow-lg active:shadow-lg focus:shadow-lg transition ease-in-out duration-200 w-full ${
@@ -48,7 +56,7 @@ const CreateListing = () => {
                 ? "bg-white text-black"
                 : "bg-slate-600 text-white"
             }`}
-            onChange={onChange}
+            onClick={onChange}
           >
             Rent
           </button>
@@ -102,28 +110,30 @@ const CreateListing = () => {
           <button
             type="button"
             id="parking"
-            value={true}
+            name="parking"
+            value="true"
             className={`px-7 py-3 font-medium text-small
             uppercase shadow-md rounded hover:shadow-lg active:shadow-lg focus:shadow-lg transition ease-in-out duration-200 w-full ${
-              !formData.parking
-                ? "bg-white text-black"
-                : "bg-slate-600 text-white"
+              formData.parking
+                ? "bg-slate-600 text-white"
+                : "bg-white text-black"
             }`}
-            onChange={onChange}
+            onClick={onChange}
           >
             Yes
           </button>
           <button
             type="button"
-            id="type"
-            value={false}
+            id="parking"
+            name="parking"
+            value="false"
             className={`px-7 py-3 font-medium text-small
             uppercase shadow-md rounded hover:shadow-lg active:shadow-lg focus:shadow-lg transition ease-in-out duration-200 w-full ${
-              formData.parking
-                ? "bg-white text-black"
-                : "bg-slate-600 text-white"
+              !formData.parking
+                ? "bg-slate-600 text-white"
+                : "bg-white text-black"
             }`}
-            onChange={onChange}
+            onClick={onChange}
           >
             No
           </button>
@@ -133,28 +143,30 @@ const CreateListing = () => {
           <button
             type="button"
             id="furnished"
-            value={false}
+            name="furnished"
+            value="true"
             className={`px-7 py-3 font-medium text-small
             uppercase shadow-md rounded hover:shadow-lg active:shadow-lg focus:shadow-lg transition ease-in-out duration-200 w-full ${
-              !formData.furnished
-                ? "bg-white text-black"
-                : "bg-slate-600 text-white"
+              formData.furnished
+                ? "bg-slate-600 text-white"
+                : "bg-white text-black"
             }`}
-            onChange={onChange}
+            onClick={onChange}
           >
             Yes
           </button>
           <button
             type="button"
             id="furnished"
-            value={true}
+            name="furnished"
+            value="false"
             className={`px-7 py-3 font-medium text-small
             uppercase shadow-md rounded hover:shadow-lg active:shadow-lg focus:shadow-lg transition ease-in-out duration-200 w-full ${
-              formData.furnished
-                ? "bg-white text-black"
-                : "bg-slate-600 text-white"
+              !formData.furnished
+                ? "bg-slate-600 text-white"
+                : "bg-white text-black"
             }`}
-            onChange={onChange}
+            onClick={onChange}
           >
             NO
           </button>
@@ -187,26 +199,28 @@ const CreateListing = () => {
           <button
             type="button"
             id="offer"
-            value={formData.offer}
+            name="offer"
+            value="true"
             className={`px-7 py-3 font-medium text-small
             uppercase shadow-md rounded hover:shadow-lg active:shadow-lg focus:shadow-lg transition ease-in-out duration-200 w-full ${
-              !formData.offer
-                ? "bg-white text-black"
-                : "bg-slate-600 text-white"
+              formData.offer ? "bg-slate-600 text-white" : "bg-white text-black"
             }`}
-            onChange={onChange}
+            onClick={onChange}
           >
             Yes
           </button>
           <button
             type="button"
             id="offer"
-            value={formData.offer}
+            name="offer"
+            value="false"
             className={`px-7 py-3 font-medium text-small
             uppercase shadow-md rounded hover:shadow-lg active:shadow-lg focus:shadow-lg transition ease-in-out duration-200 w-full ${
-              formData.offer ? "bg-white text-black" : "bg-slate-600 text-white"
+              !formData.offer
+                ? "bg-slate-600 text-white"
+                : "bg-white text-black"
             }`}
-            onChange={onChange}
+            onClick={onChange}
           >
             NO
           </button>
