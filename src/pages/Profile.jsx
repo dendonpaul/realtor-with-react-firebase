@@ -2,6 +2,7 @@ import { getAuth, updateProfile } from "firebase/auth";
 import ListingItem from "../components/ListingItem";
 import {
   collection,
+  deleteDoc,
   doc,
   getDocs,
   orderBy,
@@ -79,7 +80,22 @@ const Profile = () => {
       setLoading(false);
     };
     fetchUserListings();
-  }, [auth.currentUser.uid]);
+  }, [auth.currentUser.uid, listings]);
+
+  const onDelete = async (listingId) => {
+    if (window.confirm("Do you want to delete the listing?")) {
+      await deleteDoc(doc(db, "listings", listingId));
+      const updatedListing = listings.filter(
+        (list) => listings.id !== listingId
+      );
+      setListings(updatedListing);
+      toast.success("Succesfully delete the listing");
+    }
+  };
+
+  const onEdit = (listingId) => {
+    navigate(`/edit-listing/${listingId}`);
+  };
   return (
     <>
       <section className="max-w-6xl mx-auto flex justify-center items-center flex-col">
@@ -152,6 +168,8 @@ const Profile = () => {
                     id={listing.id}
                     key={listing.id}
                     listing={listing.data}
+                    onDelete={() => onDelete(listing.id)}
+                    onEdit={() => onEdit(listing.id)}
                   />
                 );
               })}

@@ -1,9 +1,9 @@
 import React from "react";
 import Moment from "react-moment";
 import { Link } from "react-router-dom";
-import { MdLocationOn } from "react-icons/md";
+import { MdLocationOn, MdDeleteForever, MdEdit } from "react-icons/md";
 
-const ListingItem = ({ listing, id }) => {
+const ListingItem = ({ listing, id, onDelete, onEdit }) => {
   return (
     <li className="bg-white flex flex-col justify-between items-center shadow-md hover:shadow-xl rounded overflow-hidden transition duration-200 relative m-[10px]">
       <Link className="contents" to={`/category/${listing.type}/${id}`}>
@@ -54,6 +54,20 @@ const ListingItem = ({ listing, id }) => {
           </div>
         </div>
       </Link>
+      {onDelete && (
+        <MdDeleteForever
+          className="absolute bottom-2 right-2 text-xl cursor-pointer text-red-500"
+          onClick={() => onDelete(listing.id)}
+          title="Delete"
+        />
+      )}
+      {onEdit && (
+        <MdEdit
+          className="absolute bottom-2 right-7 text-xl cursor-pointer "
+          onClick={() => onEdit(listing.id)}
+          title="Edit"
+        />
+      )}
     </li>
   );
 };
