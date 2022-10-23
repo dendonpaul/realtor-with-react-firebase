@@ -5,3 +5,11 @@
 body {
   background-color: rgb(240, 250, 244);
 }
+.swiper-button-next:after,
+.swiper-button-prev:after {
+  color: red;
+}
+
+.swiper-pagination-progressbar .swiper-pagination-progressbar-fill {
+  background: red !important;
+}
