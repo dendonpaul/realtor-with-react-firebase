@@ -46,7 +46,7 @@ const Listing = () => {
         {listing.imgUrls.map((url, index) => (
           <SwiperSlide key={index}>
             <div
-              className="relative overflow-hidden h-[300px] w-full"
+              className="relative overflow-hidden h-[400px] w-full"
               style={{
                 background: `url(${url}) center no-repeat`,
                 backgroundSize: "cover",
