@@ -479,7 +479,6 @@ const EditListing = () => {
             onChange={onChange}
             accept=".jpg,.png,.jpeg"
             multiple
-            required
             className="w-full px-2 py-1.5 text-gray-700 bg-white border border-gray-300 transition duration-200 ease-in-out focus:bg-white focus:border-slate-600 rounded"
           />
         </div>
