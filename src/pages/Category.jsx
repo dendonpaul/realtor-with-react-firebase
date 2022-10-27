@@ -8,11 +8,12 @@ import {
   where,
 } from "firebase/firestore";
 import React, { useEffect, useState } from "react";
+import { useParams } from "react-router";
 import ListingItem from "../components/ListingItem";
 import Spinner from "../components/Spinner";
 import { db } from "../firebase";
 
-const Offers = () => {
+const Category = () => {
   const [loading, setLoading] = useState(true);
   const [listings, setListings] = useState(null);
   const [lastFetchListing, setLastFetchListing] = useState(null);
@@ -23,7 +24,7 @@ const Offers = () => {
         const listingRef = collection(db, "listings");
         const q = query(
           listingRef,
-          where("offer", "==", true),
+          where("type", "==", params.categoryName),
           orderBy("timestamp", "desc"),
           limit(2)
         );
@@ -48,12 +49,14 @@ const Offers = () => {
     fetchListings();
   }, []);
 
+  const params = useParams();
+
   const fetchMoreListings = async () => {
     try {
       const listingRef = collection(db, "listings");
       const q = query(
         listingRef,
-        where("offer", "==", true),
+        where("type", "==", params.categoryName),
         orderBy("timestamp", "desc"),
         startAfter(lastFetchListing),
         limit(2)
@@ -79,7 +82,12 @@ const Offers = () => {
 
   return (
     <div className="max-w-6xl mx-auto px-3">
-      <h1 className="text-3xl text-center">Offers</h1>
+      <h1 className="text-3xl text-center">
+        Places for
+        {" " +
+          params.categoryName.charAt(0).toUpperCase() +
+          params.categoryName.slice(1)}
+      </h1>
       {loading ? (
         <Spinner />
       ) : listings && listings.length > 0 ? (
@@ -113,4 +121,4 @@ const Offers = () => {
   );
 };
 
-export default Offers;
+export default Category;
