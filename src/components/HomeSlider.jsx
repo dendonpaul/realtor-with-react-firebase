@@ -46,20 +46,19 @@ const HomeSlider = () => {
           slidesPerView={1}
           navigation
           pagination={{ clickable: true }}
+          loop={true}
         >
           {listings.map((listing) => (
-            <SwiperSlide
-              key={listing.id}
-              onClick={() =>
-                navigate(`/category/${listing.data.type}/${listing.id}`)
-              }
-            >
+            <SwiperSlide key={listing.id}>
               <div
                 className="relative overflow-hidden h-[400px] w-full"
                 style={{
                   background: `url(${listing.data.imgUrls[0]}) center no-repeat`,
                   backgroundSize: "cover",
                 }}
+                onClick={() =>
+                  navigate(`/category/${listing.data.type}/${listing.id}`)
+                }
               ></div>
               <p className="text-[#f1faee] absolute left-1 top-3 font-medium max-w-[90%] bg-[#457b9d] shadow-lg opacity-90 p-2 rounded-br-3xl">
                 {listing.data.name}
@@ -71,7 +70,6 @@ const HomeSlider = () => {
             </SwiperSlide>
           ))}
         </Swiper>
-        ;
       </>
     )
   );

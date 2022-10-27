@@ -5,6 +5,13 @@
 body {
   background-color: rgb(240, 250, 244);
 }
+html::-webkit-scrollbar {
+  display: none;
+}
+html {
+  scrollbar-width: none;
+}
+
 .swiper-button-next:after,
 .swiper-button-prev:after {
   color: red;

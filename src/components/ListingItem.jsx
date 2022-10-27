@@ -20,9 +20,9 @@ const ListingItem = ({ listing, id, onDelete, onEdit }) => {
           {listing.timestamp?.toDate()}
         </Moment>
         <div className="w-full p-[10px]">
-          <div className="flex items-center gap-1">
-            <MdLocationOn className="h-4 w-4 text-green-600" />
-            <p className="font-semibold text-sm mb-2 text-gray-600 truncate">
+          <div className="flex items-center space-x-1 mb-2">
+            <MdLocationOn className="text-green-600 w-8" />
+            <p className="font-semibold text-sm text-gray-600 truncate">
               {listing.address}
             </p>
           </div>
